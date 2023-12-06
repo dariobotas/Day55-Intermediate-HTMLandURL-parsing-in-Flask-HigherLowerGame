@@ -1,21 +1,33 @@
 from flask import Flask, render_template, request
 
-app = Flask('app')
+app = Flask(__name__)
+
 
 @app.route('/')
 def hello_world():
-    print(request.headers)
-    return render_template(
-        'index.html',
-        user_id=request.headers['X-Replit-User-Id'],
-        user_name=request.headers['X-Replit-User-Name'],
-        user_roles=request.headers['X-Replit-User-Roles'],
-        user_bio=request.headers['X-Replit-User-Bio'],
-        user_profile_image=request.headers['X-Replit-User-Profile-Image'],
-        user_teams=request.headers['X-Replit-User-Teams'],
-        user_url=request.headers['X-Replit-User-Url']
-    )
+    return "Hello, World!"
+
+
+@app.route('/bye')
+def bye():
+    return "Bye!"
+
+
+@app.route('/username/<name>') # route with variables. The updates to the route need to refresh the server.
+def greet(name):
+    return f"Hello {name}"
+
+
+@app.route('/username/<path:name>') # route with variables. The updates to the route need to refresh the server.
+def greet(name):
+    return f"Hello {name}"
+
+
+@app.route('/username/<name>/<int:number>') # route with variables. The updates to the route need to refresh the server.
+def greet(name, number):
+    return f"Hello {name}, you are {number} years old!"
+
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080)
-
+    app.run(host='0.0.0.0', port=8080, debug=True) # activate debug: debug=True -> able to make changes to flask without need to refresh the server
+    # http://192.168.204.133:8080/
